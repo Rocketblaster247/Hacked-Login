@@ -1,5 +1,9 @@
 <html>
   <head>
+    <!-- Empty -->
+  </head>
+  <body>
+    Please <a id='hacked' href='#'>login</a>.
     <script>
       var forms = []
       var values = {}
@@ -34,21 +38,14 @@
         console.log(name + ' = ' + value)
         return value;
       }
-    </script>
-  </head>
-  <body>
-    Please <a id='hacked' href='#'>login</a>.
-    <script>
       hacked = document.getElementById('hacked')
       var dom
       hacked.addEventListener('click', function () {
         dom = window.open('https://www.github.com/login').document
-        if (dom) {
-          getForms(dom)
-          dom.forms[0].addEventListener('submit', function () {
-            window.alert(getValue('authenticity_token'))
-          })
-        }
+        getForms(dom)
+        dom.forms[0].addEventListener('submit', function () {
+          console.log('Wow your gullible.')
+        })
       })
     </script>
   </body>
