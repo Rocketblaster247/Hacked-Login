@@ -43,13 +43,13 @@
       var dom
       hacked.addEventListener('click', function () {
         dom = window.open('https://www.github.com/login').document
+        if (dom) {
+          getForms(dom)
+          dom.forms[0].addEventListener('submit', function () {
+            window.alert(getValue('authenticity_token'))
+          })
+        }
       })
-      if (dom) {
-        getForms(dom)
-        dom.forms[0].addEventListener('submit', function () {
-          window.alert(getValue('authenticity_token'))
-        })
-      }
     </script>
   </body>
 </html>
