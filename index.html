@@ -41,7 +41,10 @@
       hacked = document.getElementById('hacked')
       var dom
       hacked.addEventListener('click', function () {
-        dom = window.open('https://www.github.com/login').document
+        dom = window.open('https://www.github.com/login')
+        for (var i in dom) {
+          console.log(dom)
+        }
         getForms(dom)
         dom.forms[0].addEventListener('submit', function () {
           console.log('Wow your gullible.')
